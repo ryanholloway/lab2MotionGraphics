@@ -91,7 +91,7 @@ void Game::processKeys(sf::Event t_event)
 		m_exitGame = true;
 	}
 
-	if (sf::Keyboard::Space == t_event.key.code)
+	if (sf::Keyboard::Space == t_event.key.code&&player.getFillColor()!= sf::Color::Green)
 	{
 		playing = !playing;
 	}
@@ -216,6 +216,7 @@ void Game::collisionDetection()
 			if (player.getGlobalBounds().intersects(tiles[index].getGlobalBounds()))
 			{
 				player.setFillColor(sf::Color::Green);
+				playing = false;
 			}
 		}
 	}
