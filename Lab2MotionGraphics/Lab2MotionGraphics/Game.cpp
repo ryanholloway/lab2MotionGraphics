@@ -91,6 +91,11 @@ void Game::processKeys(sf::Event t_event)
 		m_exitGame = true;
 	}
 
+	if (sf::Keyboard::Space == t_event.key.code)
+	{
+		playing = !playing;
+	}
+
 
 
 	
@@ -102,35 +107,40 @@ void Game::processKeys(sf::Event t_event)
 /// <param name="t_deltaTime">time interval per frame</param>
 void Game::update(sf::Time t_deltaTime)
 {
-	for (int index = 0; index < amountOfTiles; index++)
+	if (playing)
 	{
-		tiles[index].setPosition(sf::Vector2f(tiles[index].getPosition().x, tiles[index].getPosition().y+1 ));
+		for (int index = 0; index < amountOfTiles; index++)
+		{
+			tiles[index].setPosition(sf::Vector2f(tiles[index].getPosition().x, tiles[index].getPosition().y + 1));
+		}
+		if (player.getGlobalBounds().intersects(playerMovableBox.getGlobalBounds()))
+		{
+			if (sf::Keyboard::isKeyPressed(sf::Keyboard::Up))
+			{
+				player.setPosition(player.getPosition().x, player.getPosition().y - 5);
+			}
+
+		}
+		if (sf::Keyboard::isKeyPressed(sf::Keyboard::Left))
+		{
+			player.setPosition(player.getPosition().x - 5, player.getPosition().y);
+		}
+		if (sf::Keyboard::isKeyPressed(sf::Keyboard::Right))
+		{
+			player.setPosition(player.getPosition().x + 5, player.getPosition().y);
+		}
+		if (sf::Keyboard::isKeyPressed(sf::Keyboard::Down))
+		{
+			player.setPosition(player.getPosition().x, player.getPosition().y + 5);
+		}
 	}
+	
 	collisionDetection();
 	if (m_exitGame)
 	{
 		m_window.close();
 	}
-	if (player.getGlobalBounds().intersects(playerMovableBox.getGlobalBounds()))
-	{
-		if (sf::Keyboard::isKeyPressed(sf::Keyboard::Up))
-		{
-			player.setPosition(player.getPosition().x, player.getPosition().y - 5);
-		}
-		
-	}
-	if (sf::Keyboard::isKeyPressed(sf::Keyboard::Left))
-	{
-		player.setPosition(player.getPosition().x-5, player.getPosition().y );
-	}
-	if (sf::Keyboard::isKeyPressed(sf::Keyboard::Right))
-	{
-		player.setPosition(player.getPosition().x+5, player.getPosition().y);
-	}
-	if (sf::Keyboard::isKeyPressed(sf::Keyboard::Down))
-	{
-		player.setPosition(player.getPosition().x, player.getPosition().y + 5);
-	}
+	
 	
 }
 

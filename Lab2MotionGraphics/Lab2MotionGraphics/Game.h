@@ -40,6 +40,8 @@ private:
 
 	sf::RectangleShape tiles[amountOfTiles];
 	sf::RectangleShape playerMovableBox;
+	bool playing = false;
+
 	int row = 0;
 	int column = 0;
 	int levelData[amountOfTiles]
@@ -54,7 +56,6 @@ private:
 		1,1,1,0,0,1,1,1,1,1,
 		1,1,0,0,1,1,1,1,1,1,
 		1,0,0,0,1,1,1,1,1,1,
-
 		1,0,0,1,1,1,1,1,1,1,
 		1,1,0,0,1,1,1,1,1,1,
 		1,1,0,0,0,1,1,1,1,1,
