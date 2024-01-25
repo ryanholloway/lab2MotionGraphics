@@ -95,6 +95,10 @@ void Game::processKeys(sf::Event t_event)
 	{
 		playing = !playing;
 	}
+	else if (sf::Keyboard::Space == t_event.key.code && player.getFillColor() == sf::Color::Green)
+	{
+		init();
+	}
 
 
 
@@ -191,6 +195,9 @@ void Game::setupTiles()
 /// </summary>
 void Game::init()
 {
+	row = 0;
+	column = 0;
+	playing = false;
 	if (!m_ArialBlackfont.loadFromFile("ASSETS\\FONTS\\ariblk.ttf"))
 	{
 		std::cout << "problem loading arial black font" << std::endl;
