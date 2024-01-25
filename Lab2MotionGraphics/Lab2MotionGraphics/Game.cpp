@@ -90,6 +90,10 @@ void Game::processKeys(sf::Event t_event)
 	{
 		m_exitGame = true;
 	}
+
+
+
+	
 }
 
 /// <summary>
@@ -100,12 +104,34 @@ void Game::update(sf::Time t_deltaTime)
 {
 	for (int index = 0; index < amountOfTiles; index++)
 	{
-		tiles[index].setPosition(sf::Vector2f(tiles[index].getPosition().x, tiles[index].getPosition().y-1 ));
+		tiles[index].setPosition(sf::Vector2f(tiles[index].getPosition().x, tiles[index].getPosition().y+1 ));
 	}
+	collisionDetection();
 	if (m_exitGame)
 	{
 		m_window.close();
 	}
+	if (player.getGlobalBounds().intersects(playerMovableBox.getGlobalBounds()))
+	{
+		if (sf::Keyboard::isKeyPressed(sf::Keyboard::Up))
+		{
+			player.setPosition(player.getPosition().x, player.getPosition().y - 5);
+		}
+		
+	}
+	if (sf::Keyboard::isKeyPressed(sf::Keyboard::Left))
+	{
+		player.setPosition(player.getPosition().x-5, player.getPosition().y );
+	}
+	if (sf::Keyboard::isKeyPressed(sf::Keyboard::Right))
+	{
+		player.setPosition(player.getPosition().x+5, player.getPosition().y);
+	}
+	if (sf::Keyboard::isKeyPressed(sf::Keyboard::Down))
+	{
+		player.setPosition(player.getPosition().x, player.getPosition().y + 5);
+	}
+	
 }
 
 /// <summary>
@@ -118,6 +144,7 @@ void Game::render()
 	{
 		m_window.draw(tiles[index]);
 	}
+	m_window.draw(player);
 	m_window.display();
 }
 
@@ -127,7 +154,7 @@ void Game::setupTiles()
 	{
 		
 		tiles[index].setSize(sf::Vector2f(80.0f, 80.0f));
-		tiles[index].setPosition(column * 80, row*80);
+		tiles[index].setPosition(column * 80, row * 80 - (amountOfTiles/2.0f*8));
 		column++;
 
 		if (column == 10)
@@ -159,5 +186,33 @@ void Game::init()
 		std::cout << "problem loading arial black font" << std::endl;
 	}
 	setupTiles();
+	player.setRadius(10.0f);
+	player.setOrigin(sf::Vector2f(player.getRadius(), player.getRadius()));
+	player.setFillColor(sf::Color::Blue);
+	player.setPosition(m_window.getSize().x / 2.0f, m_window.getSize().y - 40);
 
+	playerMovableBox.setSize(sf::Vector2f(m_window.getSize().x, m_window.getSize().y / 4.0f));
+	playerMovableBox.setPosition(0, m_window.getSize().y - m_window.getSize().y / 4.0f);
+	playerMovableBox.setFillColor(sf::Color::Green);
+
+}
+
+void Game::collisionDetection()
+{
+	for (int index = 0; index < amountOfTiles; index++)
+	{
+		if (tiles[index].getFillColor() == sf::Color::Red)
+		{
+			if (player.getGlobalBounds().intersects(tiles[index].getGlobalBounds()))
+			{
+				player.setFillColor(sf::Color::Green);
+			}
+		}
+	}
+
+	if (player.getPosition().y  > m_window.getSize().y - player.getRadius())
+	{
+		player.setPosition(player.getPosition().x, m_window.getSize().y - player.getRadius());
+	}
+	
 }
