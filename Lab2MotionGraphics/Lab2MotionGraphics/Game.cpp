@@ -121,21 +121,20 @@ void Game::update(sf::Time t_deltaTime)
 		{
 			if (sf::Keyboard::isKeyPressed(sf::Keyboard::Up))
 			{
-				player.setPosition(player.getPosition().x, player.getPosition().y - 5);
+				player.setPosition(player.getPosition().x, player.getPosition().y - playerSpeed);
 			}
-
 		}
 		if (sf::Keyboard::isKeyPressed(sf::Keyboard::Left))
 		{
-			player.setPosition(player.getPosition().x - 5, player.getPosition().y);
+			player.setPosition(player.getPosition().x - playerSpeed, player.getPosition().y);
 		}
 		if (sf::Keyboard::isKeyPressed(sf::Keyboard::Right))
 		{
-			player.setPosition(player.getPosition().x + 5, player.getPosition().y);
+			player.setPosition(player.getPosition().x + playerSpeed, player.getPosition().y);
 		}
 		if (sf::Keyboard::isKeyPressed(sf::Keyboard::Down))
 		{
-			player.setPosition(player.getPosition().x, player.getPosition().y + 5);
+			player.setPosition(player.getPosition().x, player.getPosition().y + playerSpeed);
 		}
 	}
 	

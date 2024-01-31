@@ -41,7 +41,8 @@ private:
 	sf::RectangleShape tiles[amountOfTiles];
 	sf::RectangleShape playerMovableBox;
 	bool playing = false;
-	int speedOfTiles = 3;
+	int speedOfTiles = 5;
+	float playerSpeed = 3.5f;
 	int row = 0;
 	int column = 0;
 	int levelData[amountOfTiles]
