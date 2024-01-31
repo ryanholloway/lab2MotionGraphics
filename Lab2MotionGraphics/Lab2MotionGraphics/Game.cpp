@@ -115,7 +115,7 @@ void Game::update(sf::Time t_deltaTime)
 	{
 		for (int index = 0; index < amountOfTiles; index++)
 		{
-			tiles[index].setPosition(sf::Vector2f(tiles[index].getPosition().x, tiles[index].getPosition().y + 1));
+			tiles[index].setPosition(sf::Vector2f(tiles[index].getPosition().x, tiles[index].getPosition().y + speedOfTiles));
 		}
 		if (player.getGlobalBounds().intersects(playerMovableBox.getGlobalBounds()))
 		{
@@ -168,7 +168,7 @@ void Game::setupTiles()
 	{
 		
 		tiles[index].setSize(sf::Vector2f(80.0f, 80.0f));
-		tiles[index].setPosition(column * 80, row * 80 - (amountOfTiles/2.0f*8));
+		tiles[index].setPosition(column * 80, row * 80 - (amountOfTiles*7.5));
 		column++;
 
 		if (column == 10)
