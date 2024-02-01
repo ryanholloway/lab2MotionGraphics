@@ -42,7 +42,7 @@ private:
 	sf::RectangleShape tiles[amountOfTiles];
 	sf::RectangleShape playerMovableBox;
 	bool playing = false;
-	int speedOfTiles = 5;
+	int speedOfTiles = 4;
 	float playerSpeed = 3.5f;
 	int row = 0;
 	int column = 0;

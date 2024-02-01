@@ -167,7 +167,6 @@ void Game::update(sf::Time t_deltaTime)
 							readyToFire = false;
 							waitToFireCounter = waitToFireInterval;
 							break;
-
 						}
 
 					}
@@ -232,9 +231,13 @@ void Game::setupTiles()
 			tiles[index].setFillColor(sf::Color::Red);
 
 		}
-		else
+		else if (levelData[index]==0)
 		{
 			tiles[index].setFillColor(sf::Color::Transparent);
+		}
+		else
+		{
+			tiles[index].setFillColor(sf::Color::Yellow);
 		}
 	}
 
