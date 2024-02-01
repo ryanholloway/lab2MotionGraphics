@@ -39,6 +39,8 @@ Game::~Game()
 /// draw as often as possible but only updates are on time
 /// if updates run slow then don't render frames
 /// </summary>
+///  
+
 void Game::run()
 {	
 	sf::Clock clock;
@@ -113,6 +115,7 @@ void Game::update(sf::Time t_deltaTime)
 {
 	if (playing)
 	{
+
 		for (int index = 0; index < amountOfTiles; index++)
 		{
 			tiles[index].setPosition(sf::Vector2f(tiles[index].getPosition().x, tiles[index].getPosition().y + speedOfTiles));
@@ -136,6 +139,49 @@ void Game::update(sf::Time t_deltaTime)
 		{
 			player.setPosition(player.getPosition().x, player.getPosition().y + playerSpeed);
 		}
+
+
+		for (int i = 0; i < amountOfProjectiles; i++)
+		{
+			if (projectiles[i].getPosition().x != offscreen.x)
+			{
+				projectiles[i].move(0, -speedOfProjectile);
+
+				if (projectiles[i].getPosition().y < 0)
+				{
+					projectiles[i].setPosition(offscreen);
+				}
+			}
+		}
+			int waitToFireInterval = waitToFireCounter;
+
+			if (readyToFire == true)
+			{
+				if (sf::Keyboard::isKeyPressed(sf::Keyboard::F))
+				{
+					for (int i = 0; i < amountOfProjectiles; i++)
+					{
+						if (projectiles[i].getPosition() == offscreen)
+						{
+							projectiles[i].setPosition(player.getPosition());
+							readyToFire = false;
+							waitToFireCounter = waitToFireInterval;
+							break;
+
+						}
+
+					}
+				}
+			}
+			else {
+				waitToFireCounter--;
+				if (waitToFireCounter <= 0)
+				{
+					readyToFire = true;
+				}
+			}
+
+
 	}
 	
 	collisionDetection();
@@ -156,6 +202,11 @@ void Game::render()
 	for (int index = 0; index < amountOfTiles; index++)
 	{
 		m_window.draw(tiles[index]);
+	}
+	for (int i = 0; i < amountOfProjectiles; i++)
+	{
+		m_window.draw(projectiles[i]);
+	
 	}
 	m_window.draw(player);
 	m_window.display();
@@ -211,13 +262,21 @@ void Game::init()
 	playerMovableBox.setPosition(0, m_window.getSize().y - m_window.getSize().y / 4.0f);
 	playerMovableBox.setFillColor(sf::Color::Green);
 
+	for (int i = 0; i < amountOfProjectiles; i++)
+	{
+		projectiles[i].setRadius(3.0f);
+		projectiles[i].setFillColor(sf::Color::Cyan);
+		projectiles[i].setPosition(offscreen);
+		projectiles[i].setOrigin(sf::Vector2f(projectiles[i].getRadius(), projectiles[i].getRadius()));
+	}
+
 }
 
 void Game::collisionDetection()
 {
 	for (int index = 0; index < amountOfTiles; index++)
 	{
-		if (tiles[index].getFillColor() == sf::Color::Red)
+		if (levelData[index] == 1)
 		{
 			if (player.getGlobalBounds().intersects(tiles[index].getGlobalBounds()))
 			{
