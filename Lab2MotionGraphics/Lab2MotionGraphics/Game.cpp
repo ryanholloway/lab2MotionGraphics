@@ -249,7 +249,15 @@ void Game::setupTiles()
 		}
 		else if (levelData[index]==0)
 		{
-			tiles[index].setFillColor(sf::Color::Transparent);
+			if (rand() % 50 == 0)
+			{
+				tiles[index].setFillColor(sf::Color::Blue);
+			}
+			else
+			{
+				tiles[index].setFillColor(sf::Color::Transparent);
+			}
+			
 		}
 		else
 		{
@@ -302,6 +310,14 @@ void Game::collisionDetection()
 {
 	for (int index = 0; index < amountOfTiles; index++)
 	{
+		if (tiles[index].getFillColor() == sf::Color::Blue)
+		{
+			if (tiles[index].getGlobalBounds().intersects(player.getGlobalBounds()))
+			{
+				tiles[index].setFillColor(sf::Color::Transparent);
+				effectRandomiser();
+			}
+		}
 		if (tiles[index].getFillColor()==sf::Color::Yellow)
 		{
 			for (int i = 0; i < amountOfProjectiles; i++)
@@ -361,4 +377,23 @@ void Game::collisionDetection()
 void Game::shoot()
 {
 	
+}
+
+void Game::effectRandomiser()
+{
+	switch (rand() % 3)
+	{
+	case 0:
+		playerSpeed += 2;
+		break;
+	case 1:
+		speedOfTiles -= 1;
+		break;
+	case 2:
+		player.setRadius(3);
+		player.setOrigin(sf::Vector2f(player.getRadius(), player.getRadius()));
+		break;
+	default:
+		break;
+	}
 }

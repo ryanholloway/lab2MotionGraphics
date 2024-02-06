@@ -217,6 +217,7 @@ private:
 	int enemyWaitToFireCounter = 100;
 	int enemySpeedOfProjectile = 5;
 	void shoot();
+	void effectRandomiser();
 
 	bool m_exitGame; // control exiting game
 
