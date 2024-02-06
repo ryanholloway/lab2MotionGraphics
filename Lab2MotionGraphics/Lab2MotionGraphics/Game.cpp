@@ -219,12 +219,10 @@ void Game::render()
 	for (int i = 0; i < amountOfProjectiles; i++)
 	{
 		m_window.draw(projectiles[i]);
+		m_window.draw(enemyProjectiles[i]);
 	
 	}
-	for (int i = 0; i < amountOfProjectiles; i++)
-	{
-		m_window.draw(enemyProjectiles[i]);
-	}
+	
 	m_window.draw(player);
 	m_window.display();
 }
@@ -304,8 +302,15 @@ void Game::collisionDetection()
 {
 	for (int index = 0; index < amountOfTiles; index++)
 	{
-		if (levelData[index] == 2 || levelData[index] == 3)
+		if (tiles[index].getFillColor()==sf::Color::Yellow)
 		{
+			for (int i = 0; i < amountOfProjectiles; i++)
+			{
+				if (projectiles[i].getGlobalBounds().intersects(tiles[index].getGlobalBounds()))
+				{
+					tiles[index].setFillColor(sf::Color::Black);
+				}
+			}
 			for (int i = 0; i < amountOfProjectiles; i++)
 				{
 					int waitToFireInterval = enemyWaitToFireCounter;
