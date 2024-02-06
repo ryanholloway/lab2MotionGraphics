@@ -141,6 +141,7 @@ void Game::update(sf::Time t_deltaTime)
 		}
 
 
+
 		for (int i = 0; i < amountOfProjectiles; i++)
 		{
 			if (projectiles[i].getPosition().x != offscreen.x)
@@ -207,6 +208,10 @@ void Game::render()
 		m_window.draw(projectiles[i]);
 	
 	}
+	for (int i = 0; i < amountOfProjectiles; i++)
+	{
+		m_window.draw(enemyProjectiles[i]);
+	}
 	m_window.draw(player);
 	m_window.display();
 }
@@ -271,6 +276,12 @@ void Game::init()
 		projectiles[i].setFillColor(sf::Color::Cyan);
 		projectiles[i].setPosition(offscreen);
 		projectiles[i].setOrigin(sf::Vector2f(projectiles[i].getRadius(), projectiles[i].getRadius()));
+
+		enemyProjectiles[i].setRadius(5.0f);
+		enemyProjectiles[i].setFillColor(sf::Color::Magenta);
+		enemyProjectiles[i].setPosition(offscreen);
+		enemyProjectiles[i].setOrigin(sf::Vector2f(enemyProjectiles[i].getRadius(), enemyProjectiles[i].getRadius()));
+
 	}
 
 }
@@ -279,6 +290,16 @@ void Game::collisionDetection()
 {
 	for (int index = 0; index < amountOfTiles; index++)
 	{
+		if (levelData[index] == 2 || levelData[index] == 3)
+		{
+			if (tiles[index].getGlobalBounds().intersects(playerMovableBox.getGlobalBounds()))
+			{
+				for (int i = 0; i < amountOfProjectiles; i++)
+				{
+					enemyProjectiles[i].setPosition(tiles[index].getPosition());
+				}
+			}
+		}
 		if (levelData[index] == 1)
 		{
 			if (player.getGlobalBounds().intersects(tiles[index].getGlobalBounds()))
@@ -295,3 +316,4 @@ void Game::collisionDetection()
 	}
 	
 }
+
