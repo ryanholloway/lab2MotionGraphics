@@ -316,7 +316,7 @@ void Game::collisionDetection()
 					int waitToFireInterval = enemyWaitToFireCounter;
 					if (enemyReadyToFire == true)
 					{
-						if (tiles[index].getGlobalBounds().intersects(playerMovableBox.getGlobalBounds()))
+						if (tiles[index].getGlobalBounds().intersects(screenBounds.getGlobalBounds()))
 						{
 							for (int i = 0; i < amountOfProjectiles; i++)
 							{
