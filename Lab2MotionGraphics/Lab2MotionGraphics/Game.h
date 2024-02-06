@@ -213,6 +213,11 @@ private:
 	int speedOfProjectile = 10;
 	sf::RectangleShape screenBounds;
 
+	bool enemyReadyToFire = true;
+	int enemyWaitToFireCounter = 1;
+	int enemySpeedOfProjectile = 10 ;
+	void shoot();
+
 	bool m_exitGame; // control exiting game
 
 };
