@@ -283,6 +283,7 @@ void Game::init()
 		enemyProjectiles[i].setOrigin(sf::Vector2f(enemyProjectiles[i].getRadius(), enemyProjectiles[i].getRadius()));
 
 	}
+	screenBounds.setSize(sf::Vector2f(m_window.getSize().x, m_window.getSize().y));
 
 }
 
@@ -292,7 +293,7 @@ void Game::collisionDetection()
 	{
 		if (levelData[index] == 2 || levelData[index] == 3)
 		{
-			if (tiles[index].getGlobalBounds().intersects(playerMovableBox.getGlobalBounds()))
+			if (tiles[index].getGlobalBounds().intersects(screenBounds.getGlobalBounds()))
 			{
 				for (int i = 0; i < amountOfProjectiles; i++)
 				{

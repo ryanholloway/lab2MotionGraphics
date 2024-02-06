@@ -211,7 +211,7 @@ private:
 	bool readyToFire = true;
 	int waitToFireCounter = 50;
 	int speedOfProjectile = 10;
-	void enemyShoot();
+	sf::RectangleShape screenBounds;
 
 	bool m_exitGame; // control exiting game
 
