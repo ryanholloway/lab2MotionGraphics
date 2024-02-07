@@ -215,10 +215,12 @@ private:
 	sf::RectangleShape screenBounds;
 
 	bool enemyReadyToFire = true;
-	int enemyWaitToFireCounter = 100;
-	int enemySpeedOfProjectile = 5;
-	void shoot();
+	int enemyWaitToFireCounter = 50;
+	int enemySpeedOfProjectile = 3;
 	void effectRandomiser();
+
+	int m_score{ 0 };
+	sf::Text scoreText;
 
 	bool m_exitGame; // control exiting game
 

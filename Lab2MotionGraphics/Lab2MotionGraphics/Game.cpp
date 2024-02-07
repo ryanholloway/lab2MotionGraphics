@@ -195,6 +195,8 @@ void Game::update(sf::Time t_deltaTime)
 				}
 			}
 
+			scoreText.setString(std::to_string(m_score));
+
 
 	}
 
@@ -237,6 +239,7 @@ void Game::render()
 		gameoverText.setPosition(100, 400);
 	}
 	m_window.draw(gameoverText);
+	m_window.draw(scoreText);
 	m_window.draw(player);
 	m_window.display();
 }
@@ -291,6 +294,11 @@ void Game::init()
 	gameoverText.setFont(m_ArialBlackfont);
 	gameoverText.setPosition(50, 400);
 
+	scoreText.setCharacterSize(25U);
+	scoreText.setFillColor(sf::Color::White);
+	scoreText.setFont(m_ArialBlackfont);
+	scoreText.setPosition(50, 50);
+
 	row = 0;
 	column = 0;
 	playing = false;
@@ -324,6 +332,7 @@ void Game::init()
 	screenBounds.setSize(sf::Vector2f(m_window.getSize().x, m_window.getSize().y));
 	speedOfTiles = 4;
 	playerSpeed = 3.5f;
+	m_score = 0;
 }
 
 void Game::collisionDetection()
@@ -336,6 +345,7 @@ void Game::collisionDetection()
 			{
 				tiles[index].setFillColor(sf::Color::Transparent);
 				effectRandomiser();
+				m_score += 10;
 			}
 		}
 		if (tiles[index].getFillColor()==sf::Color::Yellow)
@@ -369,7 +379,7 @@ void Game::collisionDetection()
 									enemyProjectiles[i].setPosition(tiles[index].getPosition());
 									
 									enemyReadyToFire = false;
-									waitToFireCounter = waitToFireInterval;
+									enemyWaitToFireCounter = waitToFireInterval;
 									break;
 								}
 
@@ -412,11 +422,6 @@ void Game::collisionDetection()
 	
 	}
 	
-	
-}
-
-void Game::shoot()
-{
 	
 }
 
