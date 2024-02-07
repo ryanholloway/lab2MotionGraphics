@@ -197,8 +197,15 @@ void Game::update(sf::Time t_deltaTime)
 
 
 	}
-	
+
+	gameoverText.setString("");
 	collisionDetection();
+	if (tiles[0].getPosition().y > m_window.getSize().y)
+	{
+		gameWon = true;
+	}
+
+
 	if (m_exitGame)
 	{
 		m_window.close();
@@ -223,7 +230,13 @@ void Game::render()
 		m_window.draw(enemyProjectiles[i]);
 	
 	}
-	
+
+	if (gameWon)
+	{
+		gameoverText.setString("Game Over, You Won!");
+		gameoverText.setPosition(100, 400);
+	}
+	m_window.draw(gameoverText);
 	m_window.draw(player);
 	m_window.display();
 }
@@ -273,6 +286,11 @@ void Game::setupTiles()
 /// </summary>
 void Game::init()
 {
+	gameoverText.setCharacterSize(45U);
+	gameoverText.setFillColor(sf::Color::Cyan);
+	gameoverText.setFont(m_ArialBlackfont);
+	gameoverText.setPosition(50, 400);
+
 	row = 0;
 	column = 0;
 	playing = false;
@@ -373,6 +391,7 @@ void Game::collisionDetection()
 			if (player.getGlobalBounds().intersects(tiles[index].getGlobalBounds()))
 			{
 				player.setFillColor(sf::Color::Green);
+				gameoverText.setString("You Lose! Space to Restart");
 				playing = false;
 			}
 		}
@@ -382,6 +401,17 @@ void Game::collisionDetection()
 	{
 		player.setPosition(player.getPosition().x, m_window.getSize().y - player.getRadius());
 	}
+	for (int i = 0; i < amountOfProjectiles; i++)
+	{
+		if (player.getGlobalBounds().intersects(enemyProjectiles[i].getGlobalBounds()))
+		{
+			player.setFillColor(sf::Color::Green);
+			gameoverText.setString("You Lose! Space to Restart");
+			playing = false;
+		}
+	
+	}
+	
 	
 }
 
@@ -396,13 +426,18 @@ void Game::effectRandomiser()
 	{
 	case 0:
 		playerSpeed += 2;
+		std::cout << "Player speed increased" << std::endl;
 		break;
 	case 1:
-		speedOfTiles -= 1;
+		if(speedOfTiles>2)
+		speedOfTiles -= 0.5;
+
+		std::cout << "Speed of tiles decreased" << std::endl;
 		break;
 	case 2:
 		player.setRadius(3);
 		player.setOrigin(sf::Vector2f(player.getRadius(), player.getRadius()));
+		std::cout << "player size decreased" << std::endl;
 		break;
 	default:
 		break;

@@ -1,5 +1,5 @@
 /// <summary>
-/// author Pete Lowe May 2019
+/// author Ryan Holloway
 /// you need to change the above line or lose marks
 /// </summary>
 #ifndef GAME_HPP
@@ -36,16 +36,17 @@ private:
 
 	sf::RenderWindow m_window; // main SFML window
 	sf::Font m_ArialBlackfont; // font used by message
-
+	sf::Text gameoverText;
 	sf::CircleShape player;
 
 	sf::RectangleShape tiles[amountOfTiles];
 	sf::RectangleShape playerMovableBox;
 	bool playing = false;
-	int speedOfTiles = 4;
+	float speedOfTiles = 4;
 	float playerSpeed = 3.5f;
 	int row = 0;
 	int column = 0;
+	bool gameWon{ false };
 	int levelData[amountOfTiles]
 	{
 		1,1,1,0,0,1,1,1,1,1,
