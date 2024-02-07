@@ -154,6 +154,7 @@ void Game::update(sf::Time t_deltaTime)
 				}
 			}
 		}
+	
 		for (int i = 0; i < amountOfProjectiles; i++)
 		{
 			if (enemyProjectiles[i].getPosition().x != offscreen.x)
@@ -303,7 +304,8 @@ void Game::init()
 
 	}
 	screenBounds.setSize(sf::Vector2f(m_window.getSize().x, m_window.getSize().y));
-
+	speedOfTiles = 4;
+	playerSpeed = 3.5f;
 }
 
 void Game::collisionDetection()
@@ -334,11 +336,20 @@ void Game::collisionDetection()
 					{
 						if (tiles[index].getGlobalBounds().intersects(screenBounds.getGlobalBounds()))
 						{
+							if (levelData[index] == 2)
+							{
+								enemySpeedOfProjectile = 5;
+							}
+							else
+							{
+								enemySpeedOfProjectile = -5;
+							}
 							for (int i = 0; i < amountOfProjectiles; i++)
 							{
 								if (enemyProjectiles[i].getPosition() == offscreen)
 								{
 									enemyProjectiles[i].setPosition(tiles[index].getPosition());
+									
 									enemyReadyToFire = false;
 									waitToFireCounter = waitToFireInterval;
 									break;
