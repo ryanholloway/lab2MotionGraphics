@@ -12,6 +12,8 @@
 #include <SFML/Graphics.hpp>
 const int amountOfTiles = 1530;
 const int amountOfProjectiles = 20;
+const float ENEMY_SHOOT_INTERVAL = 2.0f; 
+const float ENEMY_PROJECTILE_SPEED = 5.0f;
 class Game
 {
 public:
@@ -33,6 +35,11 @@ private:
 	
 	void init();
 	void collisionDetection();
+
+	void createEnemyProjectile(sf::Vector2f startPosition, sf::Vector2f direction);
+	void moveEnemyProjectiles();
+	bool projectileOutOfBounds(const sf::CircleShape& projectile);
+	sf::Vector2f enemyProjectilesVelocity[amountOfProjectiles];
 
 	sf::RenderWindow m_window; // main SFML window
 	sf::Font m_ArialBlackfont; // font used by message
@@ -218,6 +225,7 @@ private:
 	int enemyWaitToFireCounter = 50;
 	int enemySpeedOfProjectile = 3;
 	void effectRandomiser();
+	bool enemyAlive[amountOfTiles];
 
 	int m_score{ 0 };
 	sf::Text scoreText;

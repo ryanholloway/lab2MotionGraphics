@@ -154,19 +154,6 @@ void Game::update(sf::Time t_deltaTime)
 				}
 			}
 		}
-	
-		for (int i = 0; i < amountOfProjectiles; i++)
-		{
-			if (enemyProjectiles[i].getPosition().x != offscreen.x)
-			{
-				enemyProjectiles[i].move(enemySpeedOfProjectile, speedOfTiles);
-
-				if (enemyProjectiles[i].getPosition().x < 0||enemyProjectiles[i].getPosition().x>m_window.getSize().x)
-				{
-					enemyProjectiles[i].setPosition(offscreen);
-				}
-			}
-		}
 
 			int waitToFireInterval = waitToFireCounter;
 
@@ -197,8 +184,39 @@ void Game::update(sf::Time t_deltaTime)
 
 			scoreText.setString(std::to_string(m_score));
 
+			//Enemy shooting 
 
+			for (int i = 0; i < amountOfTiles; i++) {
+
+				if (tiles[i].getFillColor() == sf::Color::Yellow)
+				{
+					if (tiles[i].getPosition().y >= 0 && tiles[i].getPosition().y <= m_window.getSize().y) {
+						// Enemy is on the screen, make it shoot
+						if (levelData[i] == 2)
+						{
+							createEnemyProjectile(tiles[i].getPosition(), sf::Vector2f(1, 0));
+						}
+						else
+						{
+							createEnemyProjectile(tiles[i].getPosition(), sf::Vector2f(-1, 0));
+						}
+						// Example velocity
+						
+					}
+				}
+
+			}
+			moveEnemyProjectiles();
 	}
+
+
+	
+
+	
+
+
+
+
 
 	gameoverText.setString("");
 	collisionDetection();
@@ -357,44 +375,6 @@ void Game::collisionDetection()
 					tiles[index].setFillColor(sf::Color::Black);
 				}
 			}
-			for (int i = 0; i < amountOfProjectiles; i++)
-				{
-					int waitToFireInterval = enemyWaitToFireCounter;
-					if (enemyReadyToFire == true)
-					{
-						if (tiles[index].getGlobalBounds().intersects(screenBounds.getGlobalBounds()))
-						{
-							if (levelData[index] == 2)
-							{
-								enemySpeedOfProjectile = 5;
-							}
-							else
-							{
-								enemySpeedOfProjectile = -5;
-							}
-							for (int i = 0; i < amountOfProjectiles; i++)
-							{
-								if (enemyProjectiles[i].getPosition() == offscreen)
-								{
-									enemyProjectiles[i].setPosition(tiles[index].getPosition());
-									
-									enemyReadyToFire = false;
-									enemyWaitToFireCounter = waitToFireInterval;
-									break;
-								}
-
-							}
-						}
-					}
-					else {
-						enemyWaitToFireCounter--;
-						if (enemyWaitToFireCounter <= 0)
-						{
-							enemyReadyToFire = true;
-						}
-					}
-				}
-			
 		}
 		if (levelData[index] == 1)
 		{
@@ -423,6 +403,48 @@ void Game::collisionDetection()
 	}
 	
 	
+}
+
+void Game::createEnemyProjectile(sf::Vector2f startPosition, sf::Vector2f direction)
+{
+	for (int i = 0; i < amountOfProjectiles; i++)
+	{
+		if (enemyProjectiles[i].getPosition() == offscreen)
+		{
+			enemyProjectiles[i].setPosition(startPosition);
+
+			// Set the velocity of the projectile based on the normalized direction
+			float projectileSpeed = 5.0f; // Adjust as needed
+			enemyProjectilesVelocity[i].x = direction.x* projectileSpeed;
+			enemyProjectilesVelocity[i].y = speedOfTiles;
+
+			break; // Exit the loop once projectile is created
+		}
+	}
+}
+
+void Game::moveEnemyProjectiles()
+{
+	for (int i = 0; i < amountOfProjectiles; i++)
+	{
+		if (enemyProjectiles[i].getPosition() != offscreen)
+		{
+			enemyProjectiles[i].move(enemyProjectilesVelocity[i]);
+
+			// Check if projectile is out of bounds and reset it if necessary
+			if (projectileOutOfBounds(enemyProjectiles[i]))
+			{
+				enemyProjectiles[i].setPosition(offscreen);
+			}
+		}
+	}
+}
+
+bool Game::projectileOutOfBounds(const sf::CircleShape& projectile)
+{
+	sf::FloatRect bounds(0.0f, 0.0f, m_window.getSize().x, m_window.getSize().y);
+
+	return !bounds.contains(projectile.getPosition());
 }
 
 void Game::effectRandomiser()
