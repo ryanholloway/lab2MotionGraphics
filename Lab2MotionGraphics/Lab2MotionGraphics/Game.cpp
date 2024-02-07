@@ -430,12 +430,12 @@ void Game::effectRandomiser()
 	switch (rand() % 3)
 	{
 	case 0:
-		playerSpeed += 2;
+		playerSpeed += 1;
 		std::cout << "Player speed increased" << std::endl;
 		break;
 	case 1:
-		if(speedOfTiles>2)
-		speedOfTiles -= 0.5;
+		if(speedOfTiles>=1.5)
+		speedOfTiles -= .75;
 
 		std::cout << "Speed of tiles decreased" << std::endl;
 		break;
