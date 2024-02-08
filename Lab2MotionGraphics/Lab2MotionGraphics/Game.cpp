@@ -223,6 +223,7 @@ void Game::update(sf::Time t_deltaTime)
 	if (tiles[0].getPosition().y > m_window.getSize().y)
 	{
 		gameWon = true;
+		playing = false;
 	}
 
 
